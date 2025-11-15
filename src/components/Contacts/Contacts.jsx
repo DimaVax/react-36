@@ -1,12 +1,23 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getContacts } from "../../redux/thunk/contactsThunk";
 import styles from "./Contacts.module.scss";
 
 export const Contacts = ({deleteContact}) => {
-  const contacts = useSelector((state) => state.contacts)
+  const dispatch = useDispatch()
+
+  const {items, loading} = useSelector((state) => state.contacts)
+
   const filter = useSelector((state) => state.filter)
-  console.log(filter)
-  const filteredContacts = contacts.filter((contact) => contact.name.includes(filter))
-  console.log(contacts)
+
+  const filteredContacts = items.filter((contact) => contact.name.includes(filter))
+
+  useEffect(() => {
+    dispatch(getContacts())
+  }, [dispatch])
+
+  if(loading) return <h3>loading...</h3>
+  
   return (
     <>
       <h2 className={styles.subtitle}>Contacts</h2>
@@ -14,7 +25,7 @@ export const Contacts = ({deleteContact}) => {
         {filteredContacts.map((contact) => (
           <li className={styles.item} key={contact.id}>
             <p className={styles.text}>
-              {contact.name}: {contact.phone}
+              {contact.name}: {contact.number}
             </p>
             <button
               className={styles.delete}

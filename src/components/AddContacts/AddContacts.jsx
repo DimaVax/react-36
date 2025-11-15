@@ -1,6 +1,7 @@
 import { Contacts } from "../Contacts/Contacts";
 // import { addContact, removeContact } from "../../redux/contacts/action";
-import { addContact, removeContact } from "../../redux/contactsSlice";
+// import { addContact, removeContact } from "../../redux/contactsSlice";
+import { addContact, removeContact } from "../../redux/thunk/contactsThunk";
 import styles from "./AddContacts.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 // import { filterContacts } from "../../redux/filter/action";
@@ -19,8 +20,8 @@ export const AddContacts = () => {
 
         const contact = {
             name: name,
-            phone: number,
-            id: Date.now(),
+            number: number,
+            
         };
         dispatch(addContact(contact))
         form.reset()
